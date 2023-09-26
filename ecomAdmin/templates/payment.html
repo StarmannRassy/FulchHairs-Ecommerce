@@ -85,7 +85,10 @@
                         </ul>
                         <nav aria-label="breadcrumb">
                              <ol class="breadcrumb mt-3">
-                                 <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b class="text-danger">₦<span id="totalprice"></span> <span id="amount" name="amount"></span></b>.<br>Your transaction reference {{ payment.ref }} <br> Enter your details below & place your order. <br><br> <span class="text-white bg-success">&nbsp Thanks for using Fulchhairs &nbsp</span></li>
+                                 <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b class="text-danger">₦ <span id="totalprice"></span> <span id="amount" name="amount"></span></b>.
+                                    <br>Your transaction reference {{ payment.ref }}
+                                     <br> Enter your details below & place your order. 
+                                     <br><br><span class="text-white bg-success">&nbsp Thanks for using Fulchhairs &nbsp</span></li>
                              </ol>
                          </nav>
                             
@@ -107,7 +110,7 @@
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div></div></div>
               
                       <div class="form-outline mb-4">
-                          <input type="number" min=1 required id="form2Example1" class="form-control" name="amount">
+                          <input type="number" required class="form-control" name="amount" id="totalprice" value={{totalPrice}}>
                           <label class="form-label text-light" for="form2Example1" style="margin-left: 0px;">Enter amount to pay for confirmation</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div></div></div>
               

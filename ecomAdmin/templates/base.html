@@ -83,34 +83,80 @@
           {% endif %} href="/about">
             <i class="fa-solid fa-address-card"></i>&nbspAbout
           </a></li>
-          <li><a {% if request.path == "/payment" %}
+          <li><a {% if request.path == "#" %}
             class="nav-link scrollto active"
           {% else %}
             class="nav-link scrollto"
-          {% endif %} href="/payment">
-            <i class="fa-solid fa-check-to-slot"></i>&nbsp Checkout
-          </a></li>
-          <li><a {% if request.path == "/orders" %}
-            class="nav-link scrollto active"
-          {% else %}
-            class="nav-link scrollto"
-          {% endif %} href="/orders">
-            <i class="bi bi-person-circle"></i>&nbspMy Orders
-          </a></li>
+          {% endif %} href="#">
+            {% comment %} <li class="dropdown"><a href="#"><span><i class="bi bi-box-arrow-in-down"></i> Sign In</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a {% if request.path == "/auth/signup/" %}
+                  class="nav-link scrollto active"
+                {% else %}
+                  class="nav-link scrollto"
+                {% endif %} href="/auth/signup/">
+                  <i class="fa-solid fa-user-plus"></i>
+                  Profile</a></li>
+                <li><a {% if request.path == "/auth/login/" %}
+                  class="nav-link scrollto active"
+                {% else %}
+                  class="nav-link scrollto"
+                {% endif %} href="/auth/login/">
+                  <i class="fa-solid fa-right-to-bracket"></i>
+                  Orders</a></li>
+              </ul>
+            </li>
+            <i class="bi bi-person-circle"></i>&nbspErasmus
+          </a></li> {% endcomment %}
 
           <!-- <li><a class="nav-link scrollto bg-danger p-2 m-2" href="/contact">Cart</a></li> -->
+
           <button type="button" class="nav-link scrollto bg-danger p-2 m-2 text-white" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true"><i class="fa-solid fa-cart-shopping"></i> Cart <span id="cart" class="top-0 badge rounded-pill bg-success">0</span>
           </button>
+         
 
           {% if request.user.is_authenticated %}
-          <li><a {% if request.path == "/auth/logout/" %}
-            class="nav-link scrollto active"
-          {% else %}
-            class="nav-link scrollto"
-          {% endif %} href="/auth/logout/">
-            Logout &nbsp<i class="fa-solid fa-right-from-bracket"></i>
-            {% comment %} {{user.username}} {% endcomment %}
-          </a></li>
+          <li class="dropdown"><a href="#"><span><i class="bi bi-person-badge-fill"></i> Erasmus</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a {% if request.path == "/auth/signup/" %}
+                class="nav-link scrollto active"
+              {% else %}
+                class="nav-link scrollto"
+              {% endif %} href="/auth/signup/">
+              <i class="bi bi-person-square"></i>
+                Profile</a></li>
+                <li><a {% if request.path == "/payment" %}
+                  class="nav-link scrollto active"
+                {% else %}
+                  class="nav-link scrollto"
+                {% endif %} href="/payment">
+                  <i class="fa-solid fa-check-to-slot"></i>&nbspCheckout
+                </a></li>
+                <li><a {% if request.path == "" %}
+                  class="nav-link scrollto active"
+                {% else %}
+                  class="nav-link scrollto"
+                {% endif %} href="">
+                <i class="bi bi-list-ul"></i>
+                  Orders</a></li>
+                  <li><a {% if request.path == "/auth/logout/" %}
+                    class="nav-link scrollto active"
+                  {% else %}
+                    class="nav-link scrollto"
+                  {% endif %} href="/auth/logout/">
+                    Logout &nbsp<i class="fa-solid fa-right-from-bracket"></i>
+                    {% comment %} {{user.username}} {% endcomment %}
+                  </a></li>
+              </ul>
+              <li><a {% if request.path == "" %}
+                class="nav-link scrollto active"
+              {% else %}
+                class="nav-link scrollto"
+              {% endif %} href="">
+              <i class="bi bi-heart-fill"></i>
+                &nbspWishlist 4</a></li>
+            </li>
+          </li>
           {% else %}
           <li class="dropdown"><a href="#"><span><i class="bi bi-box-arrow-in-down"></i> Sign In</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
@@ -141,6 +187,8 @@
           
           {% endfor %}             
           {% endif %} {% endcomment %}
+
+          
           
           <li><a {% if request.path == "/contact" %}
             class="nav-link scrollto active"

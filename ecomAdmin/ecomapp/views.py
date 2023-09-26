@@ -136,7 +136,7 @@ def checkout(request):
     if request.method=="POST":
         items_json = request.POST.get('itemsJson', '')
         name = request.POST.get('name', '')
-        amount = request.POST.get("amount")
+        amount = request.POST.get("payment.amount")
         email = request.POST.get('email', '')
         address1 = request.POST.get('address1', '')
         address2 = request.POST.get('address2','')
