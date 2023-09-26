@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Fulch Hairs - Contact Us{% endblock title %}
+{% block content %}
+<br>
+<br>
+<br>
+<hr>
+<h1 class="text-center"> &nbsp &nbsp &nbsp Contact Us</h1>
+<div class="container mt-2">
+  {% if messages %}
+  {% for message in messages %}
+
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show p-1 m-1" role="alert">
+      <p style="font-size: 12px;">{{message}}<p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  
+  {% endfor %}             
+  {% endif %}
+   <div class="row">
+       <div class="col-md-4"></div>
+       <div class="col-md-5">
+          <div class="card p-5 border border-4 border border-#4e00c2-subtle" style="background-color: #191c29;">
+           <form action="/contact" method="post">{% csrf_token %}
+               <label for="name" class="text-light">Full Name</label>
+               <div class="form-group">
+                 <input type="text" class="form-control p-1" id="name" name="name" required>
+               </div>
+               <label for="email" class="text-light">Email</label>
+               <div class="form-group">
+                 <input type="email" class="form-control p-1" id="email" name="email" value="{{user.email}}" required>
+               </div>
+               <label for="phonenumber" class="text-light">Phone Number</label>
+               <div class="form-group">
+                 <input type="number" class="form-control p-1" id="phonenumber" name="phonenumber" required>
+               </div>
+               <label for="desc" class="text-light">How Can We <span>HELP</span>?</label>
+               <div class="form-group">
+                 <textarea type="text" class="form-control p-1" id="desc" name="desc" required></textarea>
+               </div>
+               <br>
+               <button type="submit" class="btn btn-danger">Submit</button>
+             </form>
+            </div>
+             <br><br><br>
+       </div>
+       <div class="col-md-4"></div>
+   </div>
+  </div>
+{% endblock content %}
+{% block body %}
+
+{% endblock body %}
+
+

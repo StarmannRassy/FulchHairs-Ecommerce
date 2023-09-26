@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Fulchhairs - Signup{% endblock title %}
+
+{% block content %}
+
+  <br><br><br>
+ <div class="card p-5 border border-4 border border-#4e00c2-subtle" style="background-color: #191c29;">
+  {% if messages %}
+  {% for message in messages %}
+
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show p-1 m-1" role="alert">
+      <p style="font-size: 12px;">{{message}}<p>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  
+  {% endfor %}             
+  {% endif %}
+  <h2 class="text-light">Sign Up</h2>
+  <form action="/auth/signup/" method="post">{% csrf_token %}
+    <label for="email" class="text-light">Email</label>
+    <div class="form-group">
+      <input type="email" class="form-control p-1" id="email" name="email" required>
+    </div>
+    <label for="pass1" class="text-light">Password</label>
+    <div class="form-group">
+      <input type="password" class="form-control p-1" id="pass1" name="pass1" required>
+    </div>
+    <label for="pass2" class="text-light">Confirm Password</label>
+    <div class="form-group">
+      <input type="password" class="form-control p-1" id="pass2" name="pass2" required>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-danger">SignUp</button>
+    <br>
+    <span class="text-light">Already a User?</span> <a href="/auth/login/">Login</a>
+    <br>
+  </form>
+ </div>
+{% endblock content %}
