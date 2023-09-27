@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponse
-from ecomapp.models import Contact,Product,OrderUpdate,Orders
+from ecomapp.models import Contact,Product,OrderUpdate,Orders,Customer
 from django.contrib import messages
 from math import ceil
 from ecomapp import keys
@@ -8,6 +8,8 @@ from django.conf import settings
 # MERCHANT_KEY=keys.MK
 import json
 from django.views.decorators.csrf import  csrf_exempt
+from django.views.generic.base import View
+
 # from PayTm import Checksum
 # from .models import Payment
 # from django.shortcuts import get_object_or_404
@@ -135,19 +137,39 @@ def checkout(request):
 
     if request.method=="POST":
         items_json = request.POST.get('itemsJson', '')
-        name = request.POST.get('name', '')
+        
         amount = request.POST.get("payment.amount")
-        email = request.POST.get('email', '')
-        address1 = request.POST.get('address1', '')
-        address2 = request.POST.get('address2','')
-        city = request.POST.get('city', '')
-        state = request.POST.get('state', '')
-        zip_code = request.POST.get('zip_code', '')
-        phone = request.POST.get('phonenumber', '')
-        Order = Orders(items_json=items_json,name=name,amount=amount, email=email, address1=address1,address2=address2,city=city,state=state,zip_code=zip_code,phone=phone)
+        
+        #address2 = request.POST.get('address2','')
+        
+        # Order = Orders(items_json=items_json,name=name,amount=amount, email=email, address1=address1,address2=address2,city=city,state=state,zip_code=zip_code,phone=phone)
         # print(payment.amount)
-        Order.save()
-        update = OrderUpdate(order_id=Order.order_id,update_desc="the order has been placed")
-        update.save()
+        # Order.save()
+        # update = OrderUpdate(order_id=Order.order_id,update_desc="the order has been placed")
+        # update.save()
         return redirect('/orders') 
     return render(request,"checkout.html") 
+
+
+def profile(request):
+    if not request.user.is_authenticated:
+        messages.warning(request,"Login & Try Again")
+        return redirect('/auth/login')
+    
+    if request.method=="POST":
+        user = request.user
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        locailty = request.POST.get('locality')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        zipcode = request.POST.get('zipcode')
+        phone = request.POST.get('phonenumber')
+        
+        reg = Customer(user=user,name=name,locailty=locailty,city=city,state=state,zipcode=zipcode,phone=phone,email=email)
+        reg.save()
+        messages.success(request,"Congratulations! Profile saved Successfully")
+    # else:
+    #     messages.warning(request,"Invalid Input Data")
+        return render(request, 'profile.html')
+    return render(request, 'profile.html')

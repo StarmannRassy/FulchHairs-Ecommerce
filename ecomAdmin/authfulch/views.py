@@ -68,9 +68,9 @@ class ActivateAccountView(View):
 #Login Lodic
 def handlelogin(request):
     if request.method == "POST":
-        username = request.POST['email']
+        email = request.POST['email']
         userpassword = request.POST['pass1']
-        myuser = authenticate(username=username, password=userpassword)
+        myuser = authenticate(username=email, password=userpassword)
         
         if myuser is not None:
             login(request, myuser)

@@ -1,0 +1,80 @@
+{% extends "base2.html" %}
+{% block title %}Fulchhairs - Profile Page{% endblock title %}
+{% block body %}
+
+<hr><br><br><br>
+
+<div class="container">
+   
+    <div class="row">
+      <div class="col">
+        <h3> Welcome  <span class="text-capitalise bg-dark text-light">&nbsp{{request.user}}&nbsp</span></h3>
+        <ul class="list-unstyled">
+            <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-primary">Profile</a></li>
+            <li class="d-grid"><a href="{% url 'address' %}" class="btn">Address</a></li>
+        </ul>
+      </div>
+      <div class="col-6">
+        {% if messages %}
+        {% for message in messages %}
+    
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show p-1 m-1" role="alert">
+            <p style="font-size: 12px;">{{message}}<p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        
+        {% endfor %}             
+        {% endif %}
+        <div>
+            <form class="row g-3" action="{% url 'profile' %}" method="POST">{% csrf_token %}
+                <input type="hidden" name="itemsJson" id="itemsJson">
+                <input type="hidden" id="amount" name="amount" value="{{payment.amount}}">
+                <div class="col-md-12">
+                    <label for="inputname" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                  </div>
+                <div class="col-md-6">
+                  <label for="inputEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{user.email}}" required>
+                </div>
+                <div class="col-12">
+                  <label for="inputAddress" class="form-label">Locality</label>
+                  <input type="text" class="form-control" id="locality" name="locality" placeholder="1234 Main St" required>
+                </div>
+                {% comment %} <div class="col-12">
+                  <label for="inputAddress2" class="form-label">Address 2</label>
+                  <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor" required>
+                </div> {% endcomment %}
+                <div class="col-md-6">
+                  <label for="inputCity" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="col-md-4">
+                  <label for="inputState" class="form-label">State</label>
+                  <input type="text" class="form-control" id="state" name="state"  placeholder="Enter State" required>
+                </div>
+                <div class="col-md-4">
+                  <label for="inputState" class="form-label">ZipCode</label>
+                  <input type="text" class="form-control" id="zipcode" name="zipcode"  placeholder="ZipCode" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="inputZip" class="form-label">Phone Number</label>
+                  <input type="number" class="form-control" id="phonenumber" name="phonenumber" required>
+                </div>
+                <br>
+                <div class="col-12">
+                    <button type="button" class="btn btn-success btn-sm btn-block col-md-4">Update Profile</button>
+                </div>
+        </div>
+      </div>
+      <div class="col">
+       
+      </div>
+
+    </div>
+
+</div>
+
+<br>
+
+{% endblock body %}
