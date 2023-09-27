@@ -17,6 +17,10 @@
   {% endif %}
   <h2 class="text-light">Sign Up</h2>
   <form action="/auth/signup/" method="post">{% csrf_token %}
+    <label for="username" class="text-light">Username</label>
+    <div class="form-group">
+      <input type="username" class="form-control p-1" id="username" name="username" required>
+    </div>
     <label for="email" class="text-light">Email</label>
     <div class="form-group">
       <input type="email" class="form-control p-1" id="email" name="email" required>

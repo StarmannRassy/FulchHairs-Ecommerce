@@ -16,6 +16,7 @@ from django.contrib.auth import authenticate,login,logout
 # Create your views here.
 def signup(request):
     if request.method == "POST":
+        username=request.POST['username']
         email=request.POST['email']
         password=request.POST['pass1']
         confirm_password=request.POST['pass2']
@@ -28,7 +29,7 @@ def signup(request):
                 return render(request,'auth/signup.html')
         except Exception as identifier:
             pass
-        user = User.objects.create_user(email,email,password)
+        user = User.objects.create_user(username,email,password)
         user.is_active=False
         user.save()
         email_subject="Activate Your Account"

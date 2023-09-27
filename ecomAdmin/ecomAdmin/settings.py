@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from django.contrib import messages
+#from decouple import config
+from dotenv import load_dotenv
+load_dotenv()
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -119,21 +123,21 @@ USE_TZ = True
 
 # sending emails
 #STATIC_URL='/static/'
-EMAIL_HOST='smtp-relay.brevo.com'
-EMAIL_HOST_USER='boronicle@gmail.com'
-EMAIL_HOST_PASSWORD='3Zm2gXIj7ES90BHx'
+EMAIL_HOST=str(os.getenv("EMAIL_HOST"))
+EMAIL_HOST_USER=str(os.getenv("EMAIL_HOST_USER"))
+EMAIL_HOST_PASSWORD=str(os.getenv("EMAIL_HOST_PASSWORD"))
 EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 
-PAYSTACK_PUBLIC_KEY='pk_test_3401753580db09dfa45e870ee89a229c13d39202'
-PAYSTACK_SECRET_KEY='sk_test_88a0ef719b6f40a43c8d93c93597f6c4e88dda2d'
+PAYSTACK_PUBLIC_KEY=str(os.getenv("PAYSTACK_PUBLIC_KEY"))
+PAYSTACK_SECRET_KEY=str(os.getenv("PAYSTACK_SECRET_KEY"))
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-import os
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static'),
