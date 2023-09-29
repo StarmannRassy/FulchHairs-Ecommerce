@@ -1,0 +1,84 @@
+{% extends "base2.html" %}
+{% block title %}Fulchhairs - Address Page{% endblock title %}
+{% block body %}
+
+<hr><br><br><br>
+
+<div class="container">
+   
+    <div class="row">
+      <div class="col-3">
+        <h3> Welcome  <span class="text-capitalise bg-dark text-light">&nbsp{{request.user}}&nbsp</span></h3>
+        <ul class="list-unstyled">
+            <li class="d-grid"><a href="{% url 'profile' %}" class="btn ">Profile</a></li>
+            <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-primary">Address</a></li>
+        </ul>
+      </div>
+      <div class="col-3">
+        <h3>Your Address Information</h3>
+        <p>Locality: <span class="text-capitalise bg-dark text-light p-1"> {{ address.locality }} </span></p>
+        <p>City: <span class="text-capitalise bg-dark text-light p-1"> {{ address.city }} </span></p>
+        <p>State: <span class="text-capitalise bg-dark text-light p-1"> {{ address.state }} </span></p>
+        <p>Zipcode: <span class="text-capitalise bg-dark text-light p-1"> {{ address.zipcode }} </span></p>
+        <p>Country: <span class="text-capitalise bg-dark text-light p-1"> {{ address.country }} </span></p>
+        <p>Phone Number: <span class="text-capitalise bg-dark text-light p-1"> {{ address.mobile }} </span></p>
+       
+      </div>
+      <div class="col-6">
+      <!---
+        {% if messages %}
+        {% for message in messages %}
+    
+          <div class="alert alert-{{message.tags}} alert-dismissible fade show p-1 m-1" role="alert">
+            <p style="font-size: 12px;">{{message}}<p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        
+        {% endfor %}             
+        {% endif %}
+        --->  
+        <div>
+        <form class="row g-3" action="{% url 'address' %}" method="POST">{% csrf_token %}
+            <div class="col-9">
+                <label for="inputAddress" class="form-label">Locality</label>
+                <input type="text" class="form-control" id="locality" name="locality" placeholder="1234 Main St" required>
+            </div>
+            {% comment %} <div class="col-12">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor" required>
+            </div> {% endcomment %}
+            <div class="col-md-5">
+                <label for="inputCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputState" class="form-label">State</label>
+                <input type="text" class="form-control" id="state" name="state"  placeholder="Enter State" required>
+            </div>
+            <div class="col-md-4">
+                <label for="inputZip" class="form-label">ZipCode</label>
+                <input type="text" class="form-control" id="zipcode" name="zipcode"  placeholder="ZipCode" required>
+            </div>
+            <div class="col-md-5">
+                <label for="inputcountry" class="form-label">Country</label>
+                <input type="text" class="form-control" id="country" name="country" required>
+            </div>
+            <div class="col-md-5">
+                <label for="mobile" class="form-label">Phone Number</label>
+                <input type="number" class="form-control" id="mobile" name="mobile" required>
+            </div>
+            <br>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success btn-sm btn-block col-md-4"> Update Address </button>
+                </div>
+        </div>
+      </div>
+      
+
+    </div>
+
+</div>
+
+<br>
+
+{% endblock body %}

@@ -15,21 +15,27 @@ from django.contrib.auth import authenticate,login,logout
 
 # Create your views here.
 def signup(request):
-    if request.method == "POST":
-        username=request.POST['username']
-        email=request.POST['email']
-        password=request.POST['pass1']
-        confirm_password=request.POST['pass2']
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['pass1']
+        confirm_password = request.POST['pass2']
+
+        # Check if passwords match
         if password != confirm_password:
-            messages.warning(request,"Password does not match")
-            return render(request,'signup.html')        
+            messages.warning(request,"Password do not match")
+            return render(request, 'signup.html')
+
+        # Check if a user with the provided username or email already exists
         try:
-            if User.objects.get(username=email):
-                messages.info(request,"Email is taken!")
-                return render(request,'auth/signup.html')
+            if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+                messages.info(request,"A user with this username or email already exists.")
+                return render(request, 'auth/signup.html')
         except Exception as identifier:
             pass
-        user = User.objects.create_user(username,email,password)
+
+        # Create a new user
+        user = User.objects.create_user(username=username, email=email, password=password)
         user.is_active=False
         user.save()
         email_subject="Activate Your Account"
@@ -46,6 +52,39 @@ def signup(request):
         messages.success(request,f"Activate Your Account by clicking the link in your e-mail !") #{message}
         return redirect('/auth/login/')
     return render(request,"signup.html")
+    #return redirect()  # Redirect to the user's profile page
+
+    # return render(request, 'signup.html')
+    # if request.method == "POST":
+    #     email=request.POST['email']
+    #     password=request.POST['pass1']
+    #     confirm_password=request.POST['pass2']
+    #     if password != confirm_password:
+    #         messages.warning(request,"Password does not match")
+    #         return render(request,'signup.html')        
+    #     try:
+    #         if User.objects.get(username=email):
+    #             messages.info(request,"Email is taken!")
+    #             return render(request,'auth/signup.html')
+    #     except Exception as identifier:
+    #         pass
+    #     user = User.objects.create_user(email,email,password)
+    #     user.is_active=False
+    #     user.save()
+    #     email_subject="Activate Your Account"
+    #     message=render_to_string('activate.html',{
+    #         'user':user,
+    #         'domain':'127.0.0.1:8000',
+    #         'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+    #         'token':generate_token.make_token(user)
+    #     })
+        
+    # #     #Sending E-mail to the Users
+    #     email_message = EmailMessage(email_subject,message,settings.EMAIL_HOST_USER,[email])
+    #     email_message.send()
+    #     messages.success(request,f"Activate Your Account by clicking the link in your e-mail !") #{message}
+    #     return redirect('/auth/login/')
+    # return render(request,"signup.html")
 
 
 #Activating The Account (Code)
@@ -66,21 +105,45 @@ class ActivateAccountView(View):
 
 
 #Login Lodic
+# def handlelogin(request):
+#     if request.method == "POST":
+#         email = request.POST['email']
+#         userpassword = request.POST['pass1']
+#         myuser = authenticate(request,username=email, password=userpassword)
+        
+#         if myuser is not None:
+#             login(request, myuser)
+#             #messages.success(request,"Login Success")
+#             return redirect("/")
+#         else:
+#             messages.error(request,"Invalid Credentials")
+#             return redirect('/auth/login')
+#     return render(request,"login.html")
+
 def handlelogin(request):
     if request.method == "POST":
         email = request.POST['email']
         userpassword = request.POST['pass1']
-        myuser = authenticate(username=email, password=userpassword)
-        
-        if myuser is not None:
-            login(request, myuser)
-            #messages.success(request,"Login Success")
-            return redirect("/")
-        else:
-            messages.error(request,"Invalid Credentials")
-            return redirect('/auth/login')
-    return render(request,"login.html")
 
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user is not None:
+            myuser = authenticate(request, username=user.username, password=userpassword)
+
+            if myuser is not None:
+                login(request, myuser)
+                # messages.success(request, "Login Success")
+                return redirect("/")
+            else:
+                messages.error(request, "Invalid Credentials")
+                return redirect('/auth/login')
+        else:
+            messages.error(request, "Invalid Credentials")
+            return redirect('/auth/login')
+    return render(request, "login.html")
 
 # Logout Function
 def handlelogout(request):

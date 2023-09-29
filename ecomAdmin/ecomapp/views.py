@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect,HttpResponse
+from django.contrib.auth.models import User
 from ecomapp.models import Contact,Product,OrderUpdate,Orders,Customer
 from django.contrib import messages
 from math import ceil
+from django.db.models import Q
 from ecomapp import keys
+from django import forms
 from django.conf import settings
 # from . import forms
 # MERCHANT_KEY=keys.MK
@@ -111,7 +114,7 @@ def orders(request):
     if not request.user.is_authenticated:
         messages.warning(request,"Login & Try Again")
         return redirect('/auth/login')
-    currentuser=request.user.username
+    currentuser=request.user
     items=Orders.objects.filter(email=currentuser)
     rid=""
     for i in items:
@@ -127,7 +130,7 @@ def orders(request):
 
     context ={"items":items,"status":status}
     print(currentuser)
-    return render(request,"profile.html",context)
+    return render(request,"orders.html",context)
 
 
 def checkout(request):
@@ -136,17 +139,14 @@ def checkout(request):
         return redirect('/auth/login')
 
     if request.method=="POST":
-        items_json = request.POST.get('itemsJson', '')
-        
-        amount = request.POST.get("payment.amount")
-        
-        #address2 = request.POST.get('address2','')
-        
-        # Order = Orders(items_json=items_json,name=name,amount=amount, email=email, address1=address1,address2=address2,city=city,state=state,zip_code=zip_code,phone=phone)
-        # print(payment.amount)
-        # Order.save()
-        # update = OrderUpdate(order_id=Order.order_id,update_desc="the order has been placed")
-        # update.save()
+        items_json = request.POST.get('itemsJson', '')     
+        amount = request.POST.get("payment.amount")       
+        #address2 = request.POST.get('address2','')     
+        Order = Orders(items_json=items_json,amount=amount)
+        #print(payment.amount)
+        Order.save()
+        update = OrderUpdate(order_id=Order.order_id,update_desc="the order has been placed")
+        update.save()
         return redirect('/orders') 
     return render(request,"checkout.html") 
 
@@ -156,20 +156,67 @@ def profile(request):
         messages.warning(request,"Login & Try Again")
         return redirect('/auth/login')
     
-    if request.method=="POST":
-        user = request.user
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        locailty = request.POST.get('locality')
-        city = request.POST.get('city')
-        state = request.POST.get('state')
-        zipcode = request.POST.get('zipcode')
-        phone = request.POST.get('phonenumber')
+    # if request.method=="POST":
+    #     username = request.POST['username']
+    #     firstname = request.POST['fname']
+    #     lastname = request.POST['lname']
+    #     # email = request.POST.get('email')
+    #     # locailty = request.POST.get('locality')
+    #     # city = request.POST.get('city')
+    #     # state = request.POST.get('state')
+    #     # zipcode = request.POST.get('zipcode')
+    #     # phone = request.POST.get('phonenumber')
         
-        reg = Customer(user=user,name=name,locailty=locailty,city=city,state=state,zipcode=zipcode,phone=phone,email=email)
-        reg.save()
-        messages.success(request,"Congratulations! Profile saved Successfully")
-    # else:
-    #     messages.warning(request,"Invalid Input Data")
-        return render(request, 'profile.html')
-    return render(request, 'profile.html')
+    #     reg = User.objects.create_user(
+    #         username,
+    #         firstname,
+    #         lastname,
+    #         # locailty=locailty,
+    #         # city=city,
+    #         # state=state,
+    #         # zipcode=zipcode,
+    #         # phone=phone,
+    #     )
+    #     reg.save()
+    #     messages.success(request,"Congratulations! Profile info saved Successfully")
+    # # else:
+    # #     messages.warning(request,"Invalid Input Data")
+    #     return render(request, "profile.html")
+    # return render(request, "profile.html")
+    user = request.user
+
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        # phone_number = request.POST['phone_number']
+
+        # Update the user's profile information
+        user.first_name = first_name
+        user.last_name = last_name
+        # user.phone_number = phone_number
+        user.save()
+
+    return render(request, 'profile.html', {'user': user})
+
+
+
+def address(request):
+    user = request.user
+    address, created = Customer.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+
+        address.locality = request.POST['locality']
+        address.city = request.POST['city']
+        address.state = request.POST['state']
+        address.zipcode = request.POST['zipcode']
+        address.country = request.POST['country']
+        address.mobile = request.POST['mobile']
+        address.save()
+
+        messages.success(request, "Address Updated Successfully")
+        return redirect('address')
+
+    return render(request, 'address.html', {'user': user, 'address': address})
+    return render(request, 'address.html')
+

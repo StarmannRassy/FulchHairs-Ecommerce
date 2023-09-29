@@ -81,8 +81,8 @@
                <form class="row g-3" action="{% url 'checkout' %}" method="POST">
                 <input type="hidden" name="itemsJson" id="itemsJson">
                 <input type="hidden" id="amount" name="amount" value="{{payment.amount}}">
-                <div class="col-md-12">
-                    <label for="inputname" class="form-label">Full Name</label>
+                {% comment %} <div class="col-md-12"> {% endcomment %}
+                    {% comment %} <label for="inputname" class="form-label">Full Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
                   </div>
                 <div class="col-md-6">
@@ -108,7 +108,7 @@
                 <div class="col-md-6">
                   <label for="inputZip" class="form-label">Phone Number</label>
                   <input type="number" class="form-control" id="phonenumber" name="phonenumber" required>
-                </div>
+                </div> {% endcomment %}
                 <div class="col-12">
                     <button type="button" class="btn btn-success btn-sm btn-block col-md-4">Place Your Order</button>
                 </div>
@@ -168,7 +168,7 @@
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
 
-    {% comment %} <script>
+    <script>
     if (localStorage.getItem('cart') == null) {
         var cart = {};
     } else {
@@ -210,7 +210,7 @@
 
     var test = `${totalPrice}`;
     document.getElementById("amt").value = test;
-    </script> {% endcomment %}
+    </script>
 
  
 

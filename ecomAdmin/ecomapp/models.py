@@ -58,12 +58,14 @@ class OrderUpdate(models.Model):
     
 class Customer(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+    # first_name = models.CharField(max_length=30, blank=True)
+    # last_name = models.CharField(max_length=30, blank=True)
     locality = models.CharField(max_length=200)
     city = models.CharField(max_length=50)
-    mobile = models.IntegerField(default=0)
-    zipcode = models.IntegerField()
+    mobile = models.IntegerField()
+    zipcode = models.CharField(max_length=10, null=False)
     state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100, default="Nigeria")
     
     def __str__(self):
-        return self.name
+        return self.user.username

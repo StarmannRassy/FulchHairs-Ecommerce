@@ -7,14 +7,26 @@
 <div class="container">
    
     <div class="row">
-      <div class="col">
-        <h3> Welcome  <span class="text-capitalise bg-dark text-light">&nbsp{{request.user}}&nbsp</span></h3>
+      <div class="col-3">
+        <h3> Welcome  <span class="text-capitalise bg-dark text-light">&nbsp{{ user.username }}&nbsp</span></h3>
         <ul class="list-unstyled">
             <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-primary">Profile</a></li>
             <li class="d-grid"><a href="{% url 'address' %}" class="btn">Address</a></li>
         </ul>
       </div>
+
+
+
+      <div class="col-3">
+        <h3>Your Profile Information</h3>
+        <p>First Name: <span class="text-capitalise bg-dark text-light p-1"> {{ user.first_name }} </span></p>
+        <p>Last Name: <span class="text-capitalise bg-dark text-light p-1"> {{ user.last_name }} </span></p>
+        <p>Email Address: <span class="text-capitalise bg-dark text-light p-1">{{ user.email }} </span></p>
+        {% comment %} <p>Address: {{ user.address }}</p> {% endcomment %}
+      </div>
+
       <div class="col-6">
+        <h3>Edit Your Profile Information</h3>
         {% if messages %}
         {% for message in messages %}
     
@@ -24,52 +36,41 @@
           </div>
         
         {% endfor %}             
-        {% endif %}
+        {% endif %}  
         <div>
             <form class="row g-3" action="{% url 'profile' %}" method="POST">{% csrf_token %}
-                <input type="hidden" name="itemsJson" id="itemsJson">
-                <input type="hidden" id="amount" name="amount" value="{{payment.amount}}">
-                <div class="col-md-12">
-                    <label for="inputname" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Full Name" required>
+                {% comment %} <input type="hidden" name="itemsJson" id="itemsJson">
+                <input type="hidden" id="amount" name="amount" value="{{payment.amount}}"> {% endcomment %}
+                <div class="col-md-9">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="id_username" name="username" placeholder="User Name" value="{{user.username}}" disabled>
                   </div>
-                <div class="col-md-6">
+                <div class="col-md-9">
+                    <label for="inputname" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="id_first_name" name="first_name" placeholder="First Name" required>
+                  </div>
+                <div class="col-md-9">
+                    <label for="inputname" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="id_last_name" name="last_name" placeholder="Last Name" required>
+                  </div>          
+                {% comment %} <div class="col-md-9">
+                    <label for="inputname" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="id_phone_number" name="phone_number" placeholder="Phone Number" required>
+                  </div>           {% endcomment %}
+                <br>
+                <div class="col-md-9">
                   <label for="inputEmail" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{user.email}}" required>
-                </div>
-                <div class="col-12">
-                  <label for="inputAddress" class="form-label">Locality</label>
-                  <input type="text" class="form-control" id="locality" name="locality" placeholder="1234 Main St" required>
-                </div>
-                {% comment %} <div class="col-12">
-                  <label for="inputAddress2" class="form-label">Address 2</label>
-                  <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, studio, or floor" required>
-                </div> {% endcomment %}
-                <div class="col-md-6">
-                  <label for="inputCity" class="form-label">City</label>
-                  <input type="text" class="form-control" id="city" name="city" required>
-                </div>
-                <div class="col-md-4">
-                  <label for="inputState" class="form-label">State</label>
-                  <input type="text" class="form-control" id="state" name="state"  placeholder="Enter State" required>
-                </div>
-                <div class="col-md-4">
-                  <label for="inputState" class="form-label">ZipCode</label>
-                  <input type="text" class="form-control" id="zipcode" name="zipcode"  placeholder="ZipCode" required>
-                </div>
-                <div class="col-md-6">
-                  <label for="inputZip" class="form-label">Phone Number</label>
-                  <input type="number" class="form-control" id="phonenumber" name="phonenumber" required>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{user.email}}" disabled>
                 </div>
                 <br>
                 <div class="col-12">
-                    <button type="button" class="btn btn-success btn-sm btn-block col-md-4">Update Profile</button>
+                    <button type="submit" class="btn btn-success btn-sm btn-block col-md-4"> Update Profile </button>
                 </div>
         </div>
       </div>
-      <div class="col">
        
       </div>
+    </div>
 
     </div>
 
