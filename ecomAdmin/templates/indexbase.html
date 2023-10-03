@@ -109,11 +109,11 @@
                 {% endif %} href="/payment">
                   <i class="fa-solid fa-check-to-slot"></i>&nbspCheckout
                 </a></li>
-              <li><a {% if request.path == "" %}
+              <li><a {% if request.path == "/ordersp" %}
                 class="nav-link scrollto active"
               {% else %}
                 class="nav-link scrollto"
-              {% endif %} href="">
+              {% endif %} href="/ordersp">
               <i class="bi bi-list-ul"></i>
                 Orders</a></li>
                 <li><a {% if request.path == "/auth/logout/" %}

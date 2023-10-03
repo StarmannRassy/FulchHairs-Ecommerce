@@ -3,7 +3,7 @@
 {% block content %}
     <br><br><br>
     <div class="card p-5 border border-4 border border-#4e00c2-subtle" style="background-color: #191c29;">
-		<br><br> <h2 style="color:#0fad00">Success</h2>
+		<br><br>
         {% if messages %}
             {% for message in messages %}
 
@@ -17,7 +17,8 @@
         
         <h3>Dear {{ request.user.username }}</h3>
         <p style="font-size:20px;color:#5C5C5C;">transaction was successful</p>
-        <a href="{% url 'checkout' %}" class="btn btn-success"> Enter Your Address </a>
+        <br>
+        <a href="{% url 'orders' %}" class="btn btn-success"> Check Our Orders </a>
         <br><br>
         </div>
         

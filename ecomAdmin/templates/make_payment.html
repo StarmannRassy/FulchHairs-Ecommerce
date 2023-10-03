@@ -12,20 +12,23 @@
   {% endfor %}             
   {% endif %}
   <h2 class="text-light">Payment Confirmation</h2>
-  <section class="pb-4">
-	<div class="border rounded-5 card p-5 border border-4 border border-#4e00c2-subtle" style="background-color: #191c29;">
+  <section class="pb-2">
+	<div class="col-3"></div>
+	<div class="col border rounded-5 card p-3 border border-4 border border-#4e00c2-subtle" style="background-color: #191c29;">
 	  
 	  <section class="w-40 p-4 d-flex justify-content-center pb-4">
 
-			<p class="text-light"><transaction>You are about to make a payment of {{ payment.amount }} and transaction reference {{ payment.ref }} from your wallet!!!</p>
-			
+			<p class="text-light"><transaction>You are about to make a payment of ₦ <span class="text-success" style="font-size: 20px;">{{ payment.amount }}</span> from your wallet!!!
+				<br> Transaction id is <span class="text-danger">{{ payment.ref }}</span></p>
+			</transaction>
             <br>
-            
-			<button onclick="payWithPaystack()" class="btn btn-primary btn-block mb-4">Pay Now</button>
-
 		</section>
+		<div>
+			<button onclick="payWithPaystack()" class="btn btn-primary btn-block mb-4">Pay Now</button>
+			</div>
        
     </div> 
+	<div class="col-3"></div>
   </div>
 </section>
 
