@@ -1,0 +1,14 @@
+{
+    "builds": [
+        {
+          "src": "ecomAdmin/wsgi.py",
+          "use": "@vercel/python"
+        }
+      ],
+      "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "ecomAdmin/wsgi.py"
+        }
+      ]
+    }
