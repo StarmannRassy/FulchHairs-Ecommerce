@@ -17,7 +17,7 @@ from django.contrib import messages
 #from decouple import config
 from dotenv import load_dotenv
 load_dotenv()
-# import dj_database_url
+import dj_database_url
 import os
 
 
@@ -29,12 +29,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv("SECRET_KEY"))
+# SECRET_KEY = str(os.getenv("SECRET_KEY"))
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g=jzhv5zv8nxar2z0jpv#jv-$o*p(+e597*wgkau$gc&7v*m4e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "fulch-webappv2.onrender.com",]
+# ALLOWED_HOSTS = ["127.0.0.1", "localhost", "fulch-webappv2.onrender.com",]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(",")
 
 
 
@@ -85,10 +88,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ecomAdmin.wsgi.application'
 
 
+
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
+if not DEBUG:
+    DATABASES = {
+	"default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+}
+    
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
